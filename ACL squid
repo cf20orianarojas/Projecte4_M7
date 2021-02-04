@@ -1,0 +1,10 @@
+squid.conf
+#Buscar al final de las listas de control de acceso y añadir las siguientes lineas:
+
+#BLOQUEAR UNA WEB
+acl domini dstdomain www.youtube.com
+
+#DENEGAR A PARTIR DE LA REGLA
+http_access deny domini
+
+#Guarda la configuración y reiniciar el servidor con systemctl
