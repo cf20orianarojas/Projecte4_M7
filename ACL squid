@@ -1,10 +1,24 @@
+Crear un archivo con nano llamado "mylist" y escribir dentro las webs que quieres denegar el acceso. (ex: youtube, reddit)
+
 squid.conf
-#Buscar al final de las listas de control de acceso y añadir las siguientes lineas:
+#Buscar con ctrl+w # INSERT YOUR OWN RULE(S) HERE TO ALLOW ACCESS FROM YOUR CLIENTS
+# INSERT YOUR OWN RULE(S) HERE TO ALLOW ACCESS FROM YOUR CLIENTS
+include /etc/squid/conf.d/*
 
-#BLOQUEAR UNA WEB
-acl domini dstdomain www.youtube.com
+# Example rule allowing access from your local networks.
+# Adapt localnet in the ACL section to list your (internal) IP networks
+# from where browsing should be allowed
+#http_access allow localnet
+http_access allow localhost
 
-#DENEGAR A PARTIR DE LA REGLA
-http_access deny domini
+#MI LISTA DE CONTROL DE ACCESO
+acl mylist url_regex -i "/etc/squid/mylist"
+http_access deny mylist
+
+#ACCESO A LOS CLIENTES
+http_access allow all
+
+# And finally deny all other access to this proxy   
+http_access deny all
 
 #Guarda la configuración y reiniciar el servidor con systemctl
