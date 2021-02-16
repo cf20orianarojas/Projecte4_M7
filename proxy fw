@@ -1,0 +1,7 @@
+#Borrar la configuración del proxy en el navegador.
+
+sudo nano /etc/squid/squid.conf 
+buscar http_port 3128 transparent
+guardar service squid reload
+iptables -t nat -A PREROUTING -i enp0s3(o el de la redlocal) -p tcp --dport 80 (443 para seguridad) -j DNAT --to-destination IP:3128 
+service squid reload
