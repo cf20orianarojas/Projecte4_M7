@@ -1,0 +1,24 @@
+sudo nano /etc/squid/squid.conf
+
+#Linea antes de #MI LISTA DE ACCESO
+
+http_access allow localhost
+#usuarios
+auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/users
+
+auth_param basic children 30
+auth_param basic realm PROXY ACADEMIA
+
+#Linea depues del acl de restrinción de redes sociales
+acl identificación proxy_auth REQUIRED
+http_access deny mylist
+http_access allow identificación
+
+Guardar y service squid reload
+
+apt-get install apache2-utils
+htpasswd -c /etc/squid/users (nombre del usuario)
+nuevo passwd
+more /etc/squid/users (para ver los datos del usuario)
+htpasswd /etc/squid/users (nombre del usuario)
+service squid reload
